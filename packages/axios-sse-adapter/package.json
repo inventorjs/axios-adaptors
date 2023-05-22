@@ -1,0 +1,43 @@
+{
+  "name": "@inventorjs/axios-sse-adapter",
+  "version": "1.0.3",
+  "description": "axios server sent event 适配器",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/inventorjs/axios-adapters.git",
+    "directory": "packages/axios-sse-adapter"
+  },
+  "author": "sunkeysun <sunkeysun@outlook.com>",
+  "license": "GPL",
+  "type": "module",
+  "main": "dist/index.js",
+  "files": [
+    "dist/"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "dev": "tsc --watch",
+    "build": "rimraf lib && tsc",
+    "lint": "lint-staged --quiet",
+    "publish:patch": "pnpm build && pnpm -r exec pnpm version patch && pnpm -r publish",
+    "publish:minor": "pnpm build && pnpm -r exec pnpm version minor && pnpm -r publish",
+    "publish:major": "pnpm build && pnpm -r exec pnpm version major && pnpm -r publish"
+  },
+  "devDependencies": {
+    "axios": "^1.4.0",
+    "lint-staged": "^13.2.2",
+    "rimraf": "^3.0.2"
+  },
+  "lint-staged": {
+    "*.ts(x)?": "eslint"
+  },
+  "dependencies": {
+    "@microsoft/fetch-event-source": "^2.0.1",
+    "tslib": "^2.4.0"
+  },
+  "peerDependencies": {
+    "axios": "^1.4.0"
+  }
+}

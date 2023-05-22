@@ -1,0 +1,40 @@
+{
+  "name": "@inventorjs/axios-weapp-adapter",
+  "version": "1.0.0",
+  "description": "axios 微信小程序适配器",
+  "main": "dist/index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/inventorjs/axios-adapters.git",
+    "directory": "packages/axios-weapp-adapter"
+  },
+  "author": "sunkeysun <sunkeysun@outlook.com>",
+  "license": "GPL",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist/"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "lint": "lint-staged --quiet",
+    "publish:patch": "pnpm build && pnpm -r exec pnpm version patch && pnpm -r publish",
+    "publish:minor": "pnpm build && pnpm -r exec pnpm version minor && pnpm -r publish",
+    "publish:major": "pnpm build && pnpm -r exec pnpm version major && pnpm -r publish"
+  },
+  "devDependencies": {
+    "axios": "^1.4.0",
+    "@types/statuses": "^2.0.0",
+    "@types/wechat-miniprogram": "^3.4.1",
+    "lint-staged": "^13.2.2"
+  },
+  "lint-staged": {
+    "src/*.ts": "eslint"
+  },
+  "peerDependencies": {
+    "axios": "^1.4.0"
+  },
+  "dependencies": {
+    "statuses": "^2.0.1",
+    "tslib": "^2.3.1"
+  }
+}
