@@ -1,11 +1,11 @@
 /**
  * sse 适配器
  */
-import axios, { AxiosError } from 'axios';
+import axios, { AxiosError, type AxiosAdapter } from 'axios';
 const CONTENT_JSON = 'application/json';
 const CONTENT_EVENT_STREAM = 'text/event-stream';
 
-const streamAdapter = async function streamAdapter(config) {
+const streamAdapter: AxiosAdapter = async function streamAdapter(config) {
     const { data, headers, method, signal, validateStatus, timeout, ...rest } = config;
     const fullUrl = axios.getUri(config);
     const abortController = new AbortController();
@@ -19,7 +19,7 @@ const streamAdapter = async function streamAdapter(config) {
             headers,
             method,
             body: data,
-            signal: (signal ?? abortController.signal),
+            signal: (signal ?? abortController.signal) as AbortSignal,
         })
         const statusCode = res.status;
         const response = {
@@ -27,7 +27,7 @@ const streamAdapter = async function streamAdapter(config) {
             status: statusCode,
             statusText: res.statusText,
             headers: Object.fromEntries([
-                ...res.headers,
+                ...(res.headers as unknown as Map<string, string>),
             ]),
             config,
             request: null,
@@ -75,7 +75,7 @@ const streamAdapter = async function streamAdapter(config) {
         }
         return response
     } catch (error) {
-        throw new AxiosError(error.message, '0', config, null)
+        throw new AxiosError((error as Error).message, '0', config, null)
     } finally {
         clearTimeout(timer);
     }
