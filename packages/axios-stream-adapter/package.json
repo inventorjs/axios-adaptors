@@ -1,0 +1,40 @@
+{
+  "name": "@inventorjs/axios-stream-adapter",
+  "version": "1.0.1",
+  "description": "axios stream 适配器",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/inventorjs/axios-adapters.git",
+    "directory": "packages/axios-stream-adapter"
+  },
+  "author": "sunkeysun <sunkeysun@outlook.com>",
+  "license": "GPL",
+  "type": "module",
+  "main": "dist/index.js",
+  "files": [
+    "dist/"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "dev": "tsc --watch",
+    "build": "rimraf lib && tsc",
+    "lint": "lint-staged --quiet"
+  },
+  "devDependencies": {
+    "axios": "^1.4.0",
+    "lint-staged": "^13.2.2",
+    "rimraf": "^3.0.2"
+  },
+  "lint-staged": {
+    "*.ts(x)?": "eslint"
+  },
+  "dependencies": {
+    "@microsoft/fetch-event-source": "^2.0.1",
+    "tslib": "^2.4.0"
+  },
+  "peerDependencies": {
+    "axios": "^1.4.0"
+  }
+}
