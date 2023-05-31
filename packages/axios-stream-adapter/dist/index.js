@@ -11,14 +11,16 @@ const streamAdapter = function streamAdapter(config) {
         const { data, headers, method, signal, validateStatus, timeout } = config, rest = __rest(config, ["data", "headers", "method", "signal", "validateStatus", "timeout"]);
         const fullUrl = axios.getUri(config);
         const abortController = new AbortController();
-        let timer;
+        let timer = undefined;
+        const abort = () => {
+            clearTimeout(timer);
+            !abortController.signal.aborted && abortController.abort();
+        };
         if (timeout) {
-            if (signal) {
-                signal.onabort = () => {
-                    abortController.abort();
-                };
+            if (signal instanceof AbortSignal) {
+                signal.addEventListener('abort', abort);
             }
-            timer = setTimeout(() => abortController.abort(), timeout);
+            timer = setTimeout(abort, timeout);
         }
         try {
             const res = yield fetch(fullUrl, Object.assign(Object.assign({}, rest), { headers,
