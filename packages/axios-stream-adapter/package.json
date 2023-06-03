@@ -1,6 +1,6 @@
 {
   "name": "@inventorjs/axios-stream-adapter",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "axios stream 适配器",
   "repository": {
     "type": "git",

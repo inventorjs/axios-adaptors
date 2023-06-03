@@ -17,15 +17,15 @@ const streamAdapter: AxiosAdapter = async function streamAdapter(config) {
   const fullUrl = axios.getUri(config)
   const abortController = new AbortController()
   let timer: ReturnType<typeof setTimeout> | undefined = undefined
-  const abort = () => {
+  const abort = (reason?: string) => {
     clearTimeout(timer)
-    !abortController.signal.aborted && abortController.abort()
+    !abortController.signal.aborted && abortController.abort(reason)
   }
   if (timeout) {
     if (signal instanceof AbortSignal) {
-      signal.addEventListener('abort', abort)
+      signal.addEventListener('abort', () => abort())
     }
-    timer = setTimeout(abort, timeout)
+    timer = setTimeout(() => abort(`Request timeout at ${timeout}ms`), timeout)
   }
   try {
     const res = await fetch(fullUrl, {
@@ -99,7 +99,12 @@ const streamAdapter: AxiosAdapter = async function streamAdapter(config) {
     }
     return response
   } catch (error) {
-    throw new AxiosError((error as Error).message, '0', config, null)
+    if (axios.isAxiosError(error)) {
+      throw error
+    }
+    const msg = abortController.signal.aborted && abortController.signal.reason
+                ? abortController.signal.reason : (error as Error).message
+    throw new AxiosError(msg, '0', config, null)
   } finally {
     clearTimeout(timer)
   }
